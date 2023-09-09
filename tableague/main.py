@@ -9,14 +9,14 @@ def callback():
     """
 
 @app.command()
-def addscores():
+def addscores(filename:str):
     """
     add multiple-scores based on a file
     """
-    typer.echo("Add multiple scores")
+    typer.echo("Add multiple scores on a file")
 
 @app.command()
-def addscore():
+def addscore(home:str,visitor:str,home_score:int,visitor_score:int):
     """
     add score
     """
