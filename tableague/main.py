@@ -1,6 +1,5 @@
 import typer
 import re
-import pprint
 
 app = typer.Typer()
 
