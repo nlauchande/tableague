@@ -1,4 +1,4 @@
-# Express Parse CLI
+# Table League CLI
 
 This CLI tool is designed to parse a given input file, which contains fixture results of soccer matches. It calculates and displays the rankings of teams based on their scores.
 
