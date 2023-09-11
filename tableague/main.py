@@ -1,5 +1,6 @@
 import typer
 import re
+from .scoring_engine import NaiveScoringEngine
 
 app = typer.Typer()
 
