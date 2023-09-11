@@ -3,7 +3,6 @@ import re
 
 app = typer.Typer()
 
-
 def express_parse_input_file(fixture):
     regexp_parse_input = r"^(?P<home_team>[\w\W]*)\s(?P<home_score>[\d]+)[\s]*\,[\s]*(?P<visitor_team>[\w\W]*)\s(?P<visitor_score>[\d]+)$"
 
@@ -35,7 +34,6 @@ def express_parse_input_file(fixture):
         team_scores.items(), key=lambda x: (x[1], [-ord(c) for c in x[0]]), reverse=True
     )
 
-
 @app.command()
 def addscores(filename: str = "input.txt"):
     """
@@ -56,7 +54,6 @@ def addscores(filename: str = "input.txt"):
         print(f"{pos}. {team}, {points} pt{s}", end=end)
         prev_points = points
         i += 1
-
 
 if __name__ == "__main__":
     app()
