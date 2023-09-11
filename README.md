@@ -39,8 +39,6 @@ The output is in the following format
 5. Grouches, 0 pts
 ``
 
-
-
 ## Functionality
 
 Reads the input from the given file.
