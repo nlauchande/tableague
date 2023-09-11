@@ -1,8 +1,26 @@
 import re
+from collections import defaultdict
 
 class ScoringEngine:
+
+    REGEXP_PARSE_INPUT = r"^(?P<home_team>[\w\W]*)\s(?P<home_score>[\d]+)[\s]*\,[\s]*(?P<visitor_team>[\w\W]*)\s(?P<visitor_score>[\d]+)$"
+
     def score(game_fixtures: list[str]):
         pass
+
+
+    def parse_fixture(fixture,regxp=REGEXP_PARSE_INPUT):
+        # parse line base on regular expression
+        matches = re.search(regxp, fixture)
+
+        home_team = matches.group("home_team")
+        home_score = matches.group("home_score")
+        visitor_team = matches.group("visitor_team")
+        visitor_score = matches.group("visitor_score")
+
+        return home_team, home_score, visitor_team, visitor_score
+
+
 
     def print_results(results):
         i = 1
@@ -28,18 +46,13 @@ class ScoringEngine:
 
 class NaiveScoringEngine(ScoringEngine):
     def score(game_fixtures: list[str]):
-        regexp_parse_input = r"^(?P<home_team>[\w\W]*)\s(?P<home_score>[\d]+)[\s]*\,[\s]*(?P<visitor_team>[\w\W]*)\s(?P<visitor_score>[\d]+)$"
 
-        team_scores = {}
+        team_scores = defaultdict(lambda: 0)
 
         for line in game_fixtures:
             # parse line base on regular expression
-            matches = re.search(regexp_parse_input, line)
 
-            home_team = matches.group("home_team")
-            home_score = matches.group("home_score")
-            visitor_team = matches.group("visitor_team")
-            visitor_score = matches.group("visitor_score")
+            home_team, home_score, visitor_team, visitor_score = ScoringEngine.parse_fixture(line)  
 
             for team in [home_team, visitor_team]:
                 if team not in team_scores:
