@@ -2,7 +2,7 @@ from faker import Faker
 
 fake = Faker('it_IT')
 
-max_num = 10000000
+max_num = 100000000
 
 for _ in range(max_num):
     home_team = fake.first_name()

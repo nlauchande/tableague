@@ -1,6 +1,6 @@
 import typer
 import re
-from .scoring_engine import NaiveScoringEngine
+from .scoring_engine import NaiveScoringEngine,ParallelParseScoringEngine
 
 app = typer.Typer()
 
@@ -9,12 +9,12 @@ def get_file_contents(filename: str):
         lines = f.readlines()
     return lines
 
-
 @app.command()
-def addscores(filename: str = "input.txt"):
+def addscores(filename: str = "input.txt" ,engine:str='naive'):
     lines = get_file_contents(filename)
-    result = NaiveScoringEngine.score(lines)
-    NaiveScoringEngine.print_results(result)
+    engine=NaiveScoringEngine if engine!='turbo' else ParallelParseScoringEngine
+    result = engine.score(lines)
+    engine.print_results(result)
 
 if __name__ == "__main__":
     app()

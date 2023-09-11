@@ -1,14 +1,17 @@
 import re
 from collections import defaultdict
+import multiprocessing as mp
+from concurrent.futures import ProcessPoolExecutor
 
 class ScoringEngine:
 
-    REGEXP_PARSE_INPUT = r"^(?P<home_team>[\w\W]*)\s(?P<home_score>[\d]+)[\s]*\,[\s]*(?P<visitor_team>[\w\W]*)\s(?P<visitor_score>[\d]+)$"
+    REGEXP_PARSE_INPUT =  r"^(?P<home_team>[\w\W]*)\s(?P<home_score>[\d]+)[\s]*\,[\s]*(?P<visitor_team>[\w\W]*)\s(?P<visitor_score>[\d]+)$"
 
     def score(game_fixtures: list[str]):
         pass
 
 
+    @staticmethod    
     def parse_fixture(fixture,regxp=REGEXP_PARSE_INPUT):
         # parse line base on regular expression
         matches = re.search(regxp, fixture)
@@ -21,7 +24,7 @@ class ScoringEngine:
         return home_team, home_score, visitor_team, visitor_score
 
 
-
+    @staticmethod
     def print_results(results):
         i = 1
         prev_points = -1
@@ -34,7 +37,8 @@ class ScoringEngine:
             print(f"{pos}. {team}, {points} pt{s}", end=end)
             prev_points = points
             i += 1
-
+    
+    @staticmethod
     def sort_results(team_scores):
         # sort team scores by value showing the keys
         return sorted(
@@ -45,6 +49,8 @@ class ScoringEngine:
 
 
 class NaiveScoringEngine(ScoringEngine):
+
+    @staticmethod
     def score(game_fixtures: list[str]):
 
         team_scores = defaultdict(lambda: 0)
@@ -54,9 +60,40 @@ class NaiveScoringEngine(ScoringEngine):
 
             home_team, home_score, visitor_team, visitor_score = ScoringEngine.parse_fixture(line)  
 
-            for team in [home_team, visitor_team]:
-                if team not in team_scores:
-                    team_scores[team] = 0
+            if visitor_score == home_score:
+                team_scores[home_team] += 1
+                team_scores[visitor_team] += 1
+            elif visitor_score > home_score:
+                team_scores[visitor_team] += 3
+            else:
+                team_scores[home_team] += 3
+
+        return ScoringEngine.sort_results(team_scores)
+
+class ParallelParseScoringEngine(ScoringEngine):
+
+    #@staticmethod
+    #def parallel_parse(game_fixtures):
+    #    pool = mp.Pool(mp.cpu_count())
+    #    #results = pool.map(ScoringEngine.parse_fixture, [fixture for fixture in game_fixtures],chunksize=10000)
+    #    results = pool.map_async(ScoringEngine.parse_fixture, [fixture for fixture in game_fixtures],chunksize=5000)
+    #    results.wait()
+    #    return results.get()
+    
+    @staticmethod
+    def parallel_parse(game_fixtures):
+        with ProcessPoolExecutor() as executor:
+            return list(executor.map(ScoringEngine.parse_fixture, game_fixtures, chunksize=100000))
+
+
+    @staticmethod
+    def score(game_fixtures: list[str]):
+
+        team_scores = defaultdict(lambda: 0)
+    
+        parallel_parse_results = ParallelParseScoringEngine.parallel_parse(game_fixtures)
+
+        for home_team, home_score, visitor_team, visitor_score in parallel_parse_results:
 
             if visitor_score == home_score:
                 team_scores[home_team] += 1
