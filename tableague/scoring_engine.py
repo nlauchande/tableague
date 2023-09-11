@@ -15,7 +15,7 @@ class ScoringEngine:
             prev_points = points
             i += 1
 
-    def _sort_results(team_scores):
+    def sort_results(team_scores):
         # sort team scores by value showing the keys
         return sorted(
             team_scores.items(),

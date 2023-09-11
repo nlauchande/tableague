@@ -4,7 +4,6 @@ from .scoring_engine import NaiveScoringEngine
 
 app = typer.Typer()
 
-
 def express_parse_input_file(fixture):
     regexp_parse_input = r"^(?P<home_team>[\w\W]*)\s(?P<home_score>[\d]+)[\s]*\,[\s]*(?P<visitor_team>[\w\W]*)\s(?P<visitor_score>[\d]+)$"
 
