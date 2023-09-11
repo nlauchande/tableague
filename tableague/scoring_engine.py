@@ -1,3 +1,5 @@
+import re
+
 class ScoringEngine:
     def score(game_fixtures: list[str]):
         pass
@@ -30,7 +32,7 @@ class NaiveScoringEngine(ScoringEngine):
 
         team_scores = {}
 
-        for line in fixture:
+        for line in game_fixtures:
             # parse line base on regular expression
             matches = re.search(regexp_parse_input, line)
 
@@ -51,4 +53,4 @@ class NaiveScoringEngine(ScoringEngine):
             else:
                 team_scores[home_team] += 3
 
-            return self._sort_results(team_scores)
+        return ScoringEngine.sort_results(team_scores)
