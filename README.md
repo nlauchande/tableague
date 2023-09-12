@@ -17,7 +17,8 @@ This CLI tool is designed to parse a given input file, which contains fixture re
 5. Navigate to the Directory :
  `cd tableleague`
 6. Install the Project's Dependencies with Poetry
-7. Activate the Virtual Environment  : `poetry shell`
+   `poetry install`
+8. Activate the Virtual Environment  : `poetry shell`
 
 ## Executing a CLI command
 
