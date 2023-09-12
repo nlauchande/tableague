@@ -1,0 +1,21 @@
+# Feature set
+
+* Stateless mode - Done
+Means that the league of the state is kept in a file and calculations do happen in memory
+
+* Keep State - TODO
+Means that the league of the state is kept in a local database
+Multiple files for games can be provided as long as the db still exists
+
+
+#Assumptions
+
+* We could have a very huge league up to 100k game results file
+
+* The games per se are not important the most important thing is the scoring mechanism
+
+
+#Testing production oriented datasets - TODO
+
+* A dataset was generated with specialized tools. Results of the games were calculated independently 
+with an excel spreadsheet to have an independent approach to calculate points.
